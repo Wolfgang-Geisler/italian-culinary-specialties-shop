@@ -97,11 +97,11 @@ export default {
           email: this.email,
           password: this.password,
         })
-        // bei erfolg success message befüllen
+        // success message befüllen
         this.success = `A confirmation link has been sent to your E-Mail account. \
   Please click on the link to complete the process.`
       } catch(e) {
-        // fehlermeldung anzeigen
+        // fehlermeldung
         this.error = e.response.data.message[0].messages[0].message  
       }
     },
