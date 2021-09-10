@@ -44,10 +44,32 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
   ],
 
   axios: {
     baseURL: 'http://localhost:1337'
+  },
+
+  // Auth module configuration https://auth.nuxtjs.org/schemes/local
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'auth/local',
+            method: 'post',
+            propertyName: 'jwt',
+          },
+          user: {
+            url: 'users/me',
+            method: 'get',
+            propertyName: false,
+          },
+          logout: false,
+        },
+      },
+    },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

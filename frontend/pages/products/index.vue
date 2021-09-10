@@ -10,26 +10,26 @@
           <v-card class="mx-auto" max-width="400">
             <v-img
               v-if="product.image"
-              :scr="product.image.src.landscape"
+              :src="getStrapiMedia(product.image.formats.small.url)"
+              alt=""
               class="white--text align-end"
               height="200px"
-              alt="card-img"
             >
               <v-card-title>{{ product.name }}</v-card-title>
             </v-img>
 
             <v-card-subtitle class="pb-0">
-              {{product.price}}
+              {{ product.price + ' €'}}
             </v-card-subtitle>
 
             <v-card-text class="text--primary">
               <div>
-                {{product.description}}
+                {{ product.description }}
               </div>
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="orange" text> Read more </v-btn>
+              <v-btn color="orange" text :to="`products/${product.slug}`"> See more </v-btn>
             </v-card-actions>
           </v-card>
         </div>
@@ -39,13 +39,15 @@
 </template>
 
 <script>
+import { getStrapiMedia } from '../../utils/medias'
 export default {
-  async asyncData({ $axios, params }) {
-    const slug = params.slug
-    const products = await $axios.$get('/products?slug=' + slug)
-    const product = products[0]
-    return { product }
+  async asyncData({ $axios }) {
+    const products = await $axios.$get('/products')
+    return { products }
   },
+  methods: {
+    getStrapiMedia,
+  }
 }
 </script>
 
