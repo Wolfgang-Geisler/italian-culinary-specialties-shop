@@ -276,7 +276,7 @@ export default {
         this.success = 'Order has been successfully created!'
         this.$store.commit('cart/clear')
       } catch (error) {
-        this.error = error
+        this.error = error.response.data.message[0].messages[0].message
       }
     },
   },
