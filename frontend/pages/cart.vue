@@ -159,8 +159,8 @@
                 </div>
                 <div class="d-flex align-end">
                   <v-card-subtitle
-                    >{{ item.amount }}<v-icon class="mx-2">mdi-times</v-icon> $
-                    {{ item.product.price }}</v-card-subtitle
+                    >{{ item.amount }}<v-icon class="mx-2">mdi-times</v-icon>
+                    {{ item.product.price }} €</v-card-subtitle
                   >
                   <v-card-subtitle
                     >Total:
@@ -187,7 +187,7 @@
               :disabled="!valid"
               color="primary"
               @click.prevent="placeOrder()"
-              >Place your order for € {{ total }}
+              >Place your order for {{ total }} €
             </v-btn>
           </v-col>
         </v-row>
@@ -273,8 +273,7 @@ export default {
       console.log(newOrder)
       try {
         await this.$axios.$post('/orders', newOrder)
-        this.success =
-          'Order has been successfully created!'
+        this.success = 'Order has been successfully created!'
         this.$store.commit('cart/clear')
       } catch (error) {
         this.error = error
