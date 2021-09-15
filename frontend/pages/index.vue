@@ -1,6 +1,6 @@
 <template>
   <v-sheet min-height="70vh" rounded="lg" class="pa-3">
-    <h1>Home</h1>
+    <h1>Welcome to Italito</h1>
   </v-sheet>
 </template>
 

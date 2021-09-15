@@ -1,8 +1,8 @@
 <template>
-  <v-row justify="center">
-    <v-col cols="12" sm="10" md="8" lg="6">
-      <v-card ref="form">
-        <v-card-text>
+  <v-sheet min-height="70vh" rounded="lg" class="pa-3">
+    <v-row>
+      <v-col sm="12" md="6" lg="4" offset-md="3" offset-lg="4">
+        <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
             ref="username"
             v-model="username"
@@ -49,16 +49,20 @@
             label="I agree that I have read the Terms and Conditions"
             required
           ></v-checkbox>
-        </v-card-text>
-        <v-divider class="mt-12"></v-divider>
-        <v-card-actions>
-          <v-btn color="primary" text @click.prevent="register">
+          <v-btn color="primary" class="mb-3" @click.prevent="register">
             Register
           </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-row>
+          <div>
+            <p>
+              Already got an account? <nuxt-link to="/login">Login</nuxt-link>
+            </p>
+          </div>
+          <v-alert v-if="error" type="error">{{ error }}</v-alert>
+          <v-alert v-if="success" type="success">{{ success }}</v-alert>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-sheet>
 </template>
 
 <script>
@@ -69,8 +73,23 @@ export default {
     success: null,
     error: null,
     username: '',
+    usernameRules: [
+      (v) => !!v || 'Username is required',
+      (v) =>
+        (v && v.length <= 20) || 'Username must be less than 20 characters',
+    ],
     email: '',
+    emailRules: [
+      (v) => !!v || 'E-mail is required',
+      (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+    ],
     password: '',
+    passwordRules: [
+      (v) => !!v || 'Password is required',
+      (v) =>
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/.test(v) ||
+        'Minimum eight characters, at least one letter and one number',
+    ],
     passwordConfirm: '',
     termsAgreed: false,
     passwordShow: false,
@@ -80,17 +99,17 @@ export default {
   methods: {
     async register() {
       // fehlermeldungen zurücksetzen
-      this.error = null;
-       // formular validieren
-      this.$refs.form.validate();
+      this.error = null
+      // formular validieren
+      this.$refs.form.validate()
       // wenn formular fehlerhaft abbrechen
       // guard clause
-      if(!this.valid) {
+      if (!this.valid) {
         return
       }
       try {
         // token zurücksetzen
-        this.$axios.setToken(false);
+        this.$axios.setToken(false)
         // user an der strapi registrieren
         await this.$axios.post('auth/local/register', {
           username: this.username,
@@ -100,9 +119,9 @@ export default {
         // success message befüllen
         this.success = `A confirmation link has been sent to your E-Mail account. \
   Please click on the link to complete the process.`
-      } catch(e) {
+      } catch (e) {
         // fehlermeldung
-        this.error = e.response.data.message[0].messages[0].message  
+        this.error = e.response.data.message[0].messages[0].message
       }
     },
   },
