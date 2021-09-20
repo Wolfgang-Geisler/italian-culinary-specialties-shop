@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app>
     <Navigation />
     <v-main class="grey lighten-4">
       <v-container>

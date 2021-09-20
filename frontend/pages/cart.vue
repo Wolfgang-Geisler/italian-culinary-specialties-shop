@@ -16,7 +16,7 @@
     <v-stepper-items>
       <v-stepper-content step="1">
         <v-row>
-          <v-col v-for="item in cart.items" :key="item.id" cols="12">
+          <v-col v-for="(item, index) in cart.items" :key="item.id" cols="12">
             <v-card elevation="1" outlined>
               <div class="d-flex flex-no-wrap justify-space-between">
                 <div class="d-flex">
@@ -276,7 +276,8 @@ export default {
         this.success = 'Order has been successfully created!'
         this.$store.commit('cart/clear')
       } catch (error) {
-        this.error = error.response.data.message[0].messages[0].message
+        // this.error = error.response.data.message[0].messages[0].message
+        this.error = error
       }
     },
   },

@@ -110,7 +110,7 @@ export default {
       try {
         // token zurücksetzen
         this.$axios.setToken(false)
-        // user an der strapi registrieren
+        // user registrieren
         await this.$axios.post('auth/local/register', {
           username: this.username,
           email: this.email,
